@@ -1,0 +1,3 @@
+ns exp4.tcl
+
+awk -f exp4.awk exp4.tr
