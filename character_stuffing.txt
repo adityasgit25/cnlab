@@ -1,0 +1,22 @@
+**Character stuffing** is a technique used in data communication protocols to ensure the integrity of transmitted data when special control characters (used for framing or delimiting data) might accidentally appear in the actual payload. Here's what happens in character stuffing:
+
+### 1. **Purpose**
+   - Certain control characters (e.g., `FLAG` or `ESC`) mark the start and end of a data frame.
+   - If these control characters appear in the data, they could confuse the receiver into thinking a frame starts or ends prematurely.
+
+### 2. **How Character Stuffing Works**
+   - Whenever a special control character (e.g., `FLAG`) is part of the data payload, an **escape character** (e.g., `ESC`) is inserted before it.
+   - At the receiver's end, this escape character is recognized, and the original data is restored by removing the escape character.
+
+### 3. **Example**
+   Suppose:
+   - The frame delimiter (special character) is `FLAG = 01111110`.
+   - The escape character is `ESC = 11100000`.
+
+   If the payload contains the `FLAG` or `ESC` bit sequence, it is altered (stuffed) as follows:
+   - Data `FLAG` is transmitted as `ESC + FLAG`.
+   - Data `ESC` is transmitted as `ESC + ESC`.
+
+   On reception, the receiver:
+   - Detects `ESC`.
+   - Removes it to retrieve the original data (`FLAG` or `ESC`).

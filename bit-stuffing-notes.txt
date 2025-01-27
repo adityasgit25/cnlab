@@ -1,0 +1,46 @@
+Bit stuffing is a technique used in data communication to ensure that special bit patterns, used for control purposes (such as marking the beginning and end of frames), do not accidentally appear in the data being transmitted. Here’s what happens during bit stuffing:
+
+---
+
+### **Process:**
+1. **Flag Bit Pattern:**
+   - A special bit sequence, known as a **flag** (e.g., `01111110` in HDLC), is used to indicate the start and end of a data frame.
+
+2. **Problem with Data:**
+   - If the flag sequence appears within the actual data, it could confuse the receiver into thinking that the frame ends prematurely or that a new frame is starting.
+
+3. **Stuffing:**
+   - To avoid this issue, **bit stuffing** is used. Whenever the sender detects a sequence of **five consecutive 1s** in the data, it automatically **inserts a 0** after the fifth 1.
+   - This prevents the data from unintentionally matching the flag pattern.
+
+4. **Unstuffing:**
+   - At the receiver's end, the extra 0 added during stuffing is **removed** after detecting five consecutive 1s. The original data is thus restored.
+
+---
+
+### **Example:**
+#### Original Data:
+`01111110` (flag pattern used as a delimiter)  
+#### Data to Send:
+`01111101111110`  
+
+#### After Bit Stuffing:
+- The sender scans for 5 consecutive 1s in the data:
+  - After `011111`, a `0` is stuffed: `0111110`.
+- The final transmitted frame: `011111001111110`  
+
+#### At the Receiver:
+- The receiver scans for 5 consecutive 1s followed by a 0. It removes the stuffed 0, restoring the original data.
+
+---
+
+### **Advantages:**
+- Prevents misinterpretation of the control flag patterns.
+- Ensures reliable data transmission.
+
+### **Disadvantages:**
+- Increases the size of the transmitted data slightly, reducing efficiency.
+
+---
+
+Bit stuffing is widely used in protocols like HDLC (High-Level Data Link Control), USB, and other systems where precise frame delimitation is necessary.
